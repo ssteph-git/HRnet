@@ -1,23 +1,20 @@
 import "./components.css";
-import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { isActiveFalse } from "../lib/redux/mySlice";
+
 
 function Modal(props) {
-  let [modalOpen, setModalOpen] = useState(false);
+
+  let isModalActive = useSelector((state) => state.isModalActive.isActive); 
+  const dispatch = useDispatch();
 
   const closeModal = () => {
-    setModalOpen(false);
+    dispatch(isActiveFalse());
   };
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  let Employees = useSelector((state) => state.addEmployee); //token unique de l'utilisateur
-  console.log("mes employées", Employees);
 
   let modal;
-  if (modalOpen == true) {
+  if (isModalActive == true) {
     modal = (
       <div className="background-modal">
         <div className="modal-content">
@@ -34,7 +31,8 @@ function Modal(props) {
 
   return (
     <>
-      <button onClick={openModal}>Ouvrir la modale</button>
+      {/* <button onClick={openModal}>Ouvrir la modale</button>
+      {modal} */}
       {modal}
     </>
   );

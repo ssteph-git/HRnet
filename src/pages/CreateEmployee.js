@@ -3,17 +3,17 @@ import { states, department } from "../data/data";
 import Headline from "../components/Headline";
 import Modal from "../components/Modal";
 import { addEmployee } from "../lib/redux/mySlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import DatePicker from 'react-date-picker';
 import "react-date-picker/dist/DatePicker.css";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import { isActiveTrue } from "../lib/redux/mySlice";
 
 function CreateEmployee(props) {
   const dispatch = useDispatch();
-  const history = useNavigate();
 
   //Récupération des données des composant externe: dropdown---------------------------------
   const [selectedOptionState, setSelectedOptionState] = useState('Alabama');
@@ -32,8 +32,10 @@ function CreateEmployee(props) {
   const [startDate, setStartDate] = useState(new Date());
 //-------------------------------------------------------------------------------------
 
+
   const handleSubmit = (event) => {
     //Récupération des données entrées dans le formulaire
+   
     event.preventDefault();
 
     const firstName = event.target.firstName.value;
@@ -46,6 +48,7 @@ function CreateEmployee(props) {
 
     const myEmployee = { firstName, lastName, dateBirthFormat, street, city, selectedOptionState, zipCode, startDateFormat, selectedOptionDepartment};
     dispatch(addEmployee(myEmployee));
+    dispatch(isActiveTrue());
   };
 
   const values = states.map((item) => item[Object.keys(item)[0]]);//Récupération et formation des données de "State"
@@ -138,6 +141,7 @@ function CreateEmployee(props) {
             </div>
           </div>
         </form>
+        {/* <Modal modalOpen={modalOpen} /> */}
         <Modal />
         
       </main>

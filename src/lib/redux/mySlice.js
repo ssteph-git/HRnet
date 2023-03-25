@@ -17,13 +17,28 @@ initialState:  [],
   },
 });
 
+const isModalActiveSlice = createSlice({
+    name: 'isModalActive',
+    initialState: {
+        isActive: false,
+      },
+    reducers: {
+      isActiveTurn: (state) => {state.isActive = !state.isActive;},
+      isActiveTrue: (state) => {state.isActive = true;},
+      isActiveFalse: (state) => {state.isActive = false;}
+    }
+  });
+
+
 export const  {addEmployee} = dataEmployeesSlice.actions;
+export const  {isActiveTurn, isActiveTrue, isActiveFalse} = isModalActiveSlice.actions;
 
 const store = configureStore({
   reducer: {
-    addEmployee: dataEmployeesSlice.reducer
+    addEmployee: dataEmployeesSlice.reducer,
+    isModalActive: isModalActiveSlice.reducer
   }
 });
 
-export {dataEmployeesSlice, store};
+export {dataEmployeesSlice, isModalActiveSlice, store};
   
