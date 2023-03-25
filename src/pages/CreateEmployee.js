@@ -1,42 +1,89 @@
 import "./pages.css";
-import { states } from "../data/data";
-
+import { states, department } from "../data/data";
 import Headline from "../components/Headline";
+import Modal from "../components/Modal";
+import { addEmployee } from "../lib/redux/mySlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 function CreateEmployee(props) {
+  const dispatch = useDispatch();
+  const history = useNavigate();
+
+  const [selectedOptionState, setSelectedOptionState] = useState('Alabama');
+  const [selectedOptionDepartment, setSelectedOptionDepartment] = useState('Sales');
+
+  const handleSelectState = (option) => {
+    setSelectedOptionState(option.value);
+  };
+  const handleSelectDepartment = (option) => {
+    setSelectedOptionDepartment(option.value);
+  };
+
+  let form = [{}];
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    form = {...form,"state": selectedOptionState};
+    form = {...form,"department": selectedOptionDepartment};
+    dispatch(addEmployee(form));
+  };
+
+  let typingForm;
+  const handleChange = (event) => {
+    //Récupérations des données tapés dans le formulaire
+    typingForm = { ...typingForm, [event.target.name]: event.target.value };
+    form = typingForm;
+  };
+
+
+
+  const values = states.map((item) => item[Object.keys(item)[0]]);
+
   return (
     <>
       <main>
         <Headline title="Create Employee" />
-        <form action="#" id="create-employee">
+        <form id="create-employee" onSubmit={handleSubmit}>
           <div className="all_employee">
             <div className="left_employee">
               <div className="title_left">
                 <p className="Civility">Civility</p>
               </div>
               <div className="field_left">
-                <label htmlFor="first-name">First Name</label>
+                <label htmlFor="firstName">First Name</label>
                 <input
                   type="text"
                   id="first-name"
-                  name="first-name"
+                  name="firstName"
                   placeholder="Enter first name"
+                  onChange={handleChange}
+                  required
                 />
 
-                <label htmlFor="last-name">Last Name</label>
+                <label htmlFor="lastName">Last Name</label>
                 <input
                   type="text"
                   id="last-name"
-                  name="last-name"
+                  name="lastName"
                   placeholder="Enter last name"
+                  onChange={handleChange}
+                  required
                 />
 
-                <label htmlFor="date-of-birth">Date of Birth</label>
+                <label htmlFor="dateBirth">Date of Birth</label>
                 <input
                   id="date-of-birth"
                   type="date"
-                  name="date-of-birth"
+                  name="dateBirth"
                   placeholder="Enter date of birth"
+                  onChange={handleChange}
+                  required
                 />
               </div>
             </div>
@@ -46,25 +93,36 @@ function CreateEmployee(props) {
               </div>
               <div className="field_right">
                 <label htmlFor="street">Street</label>
-                <input id="street" type="text" placeholder="Enter the street" />
+                <input
+                  id="street"
+                  type="text"
+                  name="street"
+                  placeholder="Enter the street"
+                  required
+                  onChange={handleChange}
+                />
 
                 <label htmlFor="city">City</label>
-                <input id="city" type="text" placeholder="Enter the city" />
+                <input
+                  id="city"
+                  type="text"
+                  name="city"
+                  placeholder="Enter the city"
+                  required
+                  onChange={handleChange}
+                />
 
                 <label htmlFor="state">State</label>
-                <select>
-                  {states.map((state) => (
-                    <option key={state.abbreviation} value={state.abbreviation}>
-                      {state.name}
-                    </option>
-                  ))}
-                </select>
+                <Dropdown options={values} onChange={handleSelectState} value={"Alabama"} placeholder="Select an option" name="state" required/>
 
-                <label htmlFor="zip-code">Zip Code</label>
+                <label htmlFor="zipCode">Zip Code</label>
                 <input
                   id="zip-code"
                   type="number"
+                  name="zipCode"
                   placeholder="Enter the zip-code"
+                  onChange={handleChange}
+                  required
                 />
               </div>
             </div>
@@ -75,22 +133,25 @@ function CreateEmployee(props) {
                 <p className="Assignment">Assignment</p>
               </div>
               <div className="form_assignment">
-                <label className="start-date" htmlFor="start-date">Start Date</label>
-                <input id="start-date" type="date" name="start-date" />
+                <label className="startDate" htmlFor="start-date">
+                  Start Date
+                </label>
+                <input
+                  id="start-date"
+                  type="date"
+                  name="startDate"
+                  required
+                  onChange={handleChange}
+                />
                 <label htmlFor="department">Department</label>
-                <select name="department" id="department">
-                  <option>Sales</option>
-                  <option>Marketing</option>
-                  <option>Engineering</option>
-                  <option>Human Resources</option>
-                  <option>Legal</option>
-                </select>
+                <Dropdown options={department} onChange={handleSelectDepartment} value={"Sales"} placeholder="Select an option" name="state" required/>;
                 <button className="save-button">Save</button>
               </div>
             </div>
           </div>
-          
         </form>
+        <Modal />
+        
       </main>
     </>
   );

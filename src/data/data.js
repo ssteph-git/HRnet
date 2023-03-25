@@ -236,3 +236,5 @@ export const states = [
         "abbreviation": "WY"
     }
 ];
+
+export const department = ["Sales","Marketing","Engineering","Human Resources","Legal"];

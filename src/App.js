@@ -8,9 +8,10 @@ import Error from "./pages/Error";
 import { Provider } from "react-redux";
 import { store } from "./lib/redux/mySlice";
 
+
 function App() {
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
       <Router>
         <Topbar />
           <Routes>
@@ -19,7 +20,7 @@ function App() {
           <Route path="*" element={<Error />}></Route>
           </Routes>
       </Router>
- //   </Provider>
+    </Provider>
   );
 }
 

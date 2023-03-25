@@ -38,7 +38,7 @@ label {
     border-bottom: 2px solid black;
 } */
 
-input, select {
+input, select, .Dropdown-control {
     /* border: 1px solid #FFC000; */
     /* border: 1px solid #767676; */
     border: 1px solid #D1D1D1;
@@ -112,5 +112,6 @@ input::placeholder {
     border-radius: 15px;
     padding: 5px;
     border: 0;
+    cursor: pointer;
     font-weight: 900;
 }
