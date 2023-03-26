@@ -238,3 +238,51 @@ export const states = [
 ];
 
 export const department = ["Sales","Marketing","Engineering","Human Resources","Legal"];
+
+export const columns = [
+    {
+        name: 'First Name',
+        selector: row => row.firstName,
+        sortable: true
+    },
+    {
+        name: 'Last Name',
+        selector: row => row.lastName,
+        sortable: true
+    },
+    {
+        name: 'Start Date',
+        selector: row => row.startDateFormat,
+        sortable: true
+    },
+    {
+        name: 'Department',
+        selector: row => row.selectedOptionDepartment,
+        sortable: true
+    },
+    {
+        name: 'Date of Birth',
+        selector: row => row.dateBirthFormat,
+        sortable: true
+    },
+    {
+        name: 'Street',
+        selector: row => row.street,
+        sortable: true
+    },
+    {
+        name: 'City',
+        selector: row => row.city,
+        sortable: true
+    },
+    {
+        name: 'State',
+        selector: row => row.selectedOptionState,
+        sortable: true
+    },
+    {
+        name: 'Zip Code',
+        selector: row => row.zipCode,
+        sortable: true
+    },
+];
