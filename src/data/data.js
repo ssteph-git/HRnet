@@ -237,9 +237,9 @@ export const states = [
     }
 ];
 
-export const department = ["Sales","Marketing","Engineering","Human Resources","Legal"];
+export const department = ["Sales","Marketing","Engineering","Human Resources","Legal"]; //For dropdown list
 
-export const columns = [
+export const columns = [//For datagrid (Current Employees page)
     {
         name: 'First Name',
         selector: row => row.firstName,

@@ -1,21 +1,19 @@
 import "./pages.css";
 import { states, department } from "../data/data";
 import Headline from "../components/Headline";
-import Modal from "../components/Modal";
-import { addEmployee } from "../lib/redux/mySlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import Modal from '@ssteph/easymodal/dist/components/Modal'; //My library
+import { addEmployee, isActiveTrue } from "../lib/redux/mySlice";
+import { useDispatch} from "react-redux";
 import { useState } from "react";
 import DatePicker from 'react-date-picker';
 import "react-date-picker/dist/DatePicker.css";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { isActiveTrue } from "../lib/redux/mySlice";
 
 function CreateEmployee(props) {
   const dispatch = useDispatch();
 
-  //Récupération des données des composant externe: dropdown---------------------------------
+  //Retrieve data from external components: dropdown---------------------------------
   const [selectedOptionState, setSelectedOptionState] = useState('Alabama');
   const [selectedOptionDepartment, setSelectedOptionDepartment] = useState('Sales');
 
@@ -27,14 +25,14 @@ function CreateEmployee(props) {
   };
   //-------------------------------------------------------------------------------------
 
-  //Récupération des données des composant externe: datepicker---------------------------------
+  //Retrieve data from external components: datepicker---------------------------------
   const [dateBirth, setDateBirth] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
 //-------------------------------------------------------------------------------------
 
 
-  const handleSubmit = (event) => {
-    //Récupération des données entrées dans le formulaire
+  const handleSubmit = (event) => {//Form data retrieved
+    
    
     event.preventDefault();
 
@@ -49,9 +47,28 @@ function CreateEmployee(props) {
     const myEmployee = { firstName, lastName, dateBirthFormat, street, city, selectedOptionState, zipCode, startDateFormat, selectedOptionDepartment};
     dispatch(addEmployee(myEmployee));
     dispatch(isActiveTrue());
+    setIsModalOpen(true);
   };
 
-  const values = states.map((item) => item[Object.keys(item)[0]]);//Récupération et formation des données de "State"
+  const values = states.map((item) => item[Object.keys(item)[0]]);//Retrieving and formatting data from "State"
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const config =[{"background":{ //Modal configuration data (optional)
+      backgroundColor: "rgba(0, 120, 0, 0.6)",
+  }},{"modal":{
+      backgroundColor: "#fff",
+      border: "1px solid #ccc",
+      borderRadius: "5px",
+      padding: "20px",
+      width: "500px",
+      height: "auto",
+  }}];
 
   return (
     <>
@@ -141,9 +158,13 @@ function CreateEmployee(props) {
             </div>
           </div>
         </form>
-        {/* <Modal modalOpen={modalOpen} /> */}
-        <Modal />
-        
+
+        <Modal
+          yourText="Employee Created!"
+          open={isModalOpen}
+          close={handleModalClose}
+        //   style={config} //(optional)
+        />
       </main>
     </>
   );
